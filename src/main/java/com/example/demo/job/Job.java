@@ -67,6 +67,7 @@ public class Job {
 		this.payload = payload;
 		this.priority = priority;
 		this.maxRetries = maxRetries;
+		this.status = JobStatus.ACTIVE;
 		this.timeoutSeconds = timeoutSeconds;
 	}
 	

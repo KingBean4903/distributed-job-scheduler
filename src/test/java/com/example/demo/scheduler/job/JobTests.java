@@ -1,0 +1,63 @@
+package com.example.demo.scheduler.job;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.demo.job.Job;
+import com.example.demo.job.JobStatus;
+import com.example.demo.job.JobType;
+
+@SpringBootTest
+public class JobTests {
+	
+	@Test
+	void shouldCreateActiveJob() {
+		Job job = Job.create(
+				"generate-report", 
+				JobType.HTTP, 
+				"0 */5 * * * *", 
+				"{\"customerId\": 123}", 
+				5, 
+				3, 
+				30);
+		
+		assertThat(job.getStatus())
+					.isEqualTo(JobStatus.ACTIVE);
+	}
+
+	@Test 
+	public void shouldPauseActiveJob() {
+		Job job = createJob();
+		
+		job.pause();
+		
+		assertThat(job.getStatus())
+				.isEqualTo(JobStatus.PAUSED);
+	}
+	
+	@Test
+	void shouldNotResumeCancelledJob() {
+		
+		Job job= createJob();
+		job.cancel();
+		
+		assertThatThrownBy(job::resume)
+			.isInstanceOf(IllegalStateException.class);
+	}
+	
+	
+	private Job createJob() {
+		
+		return Job.create(
+				"generate-report", 
+				JobType.HTTP, 
+				"0 */5 * * * *", 
+				"{\"customerId\": 123}", 
+				5, 
+				3, 
+				30);
+	}
+}

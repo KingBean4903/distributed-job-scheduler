@@ -69,6 +69,8 @@ public class Job {
 		this.maxRetries = maxRetries;
 		this.status = JobStatus.ACTIVE;
 		this.timeoutSeconds = timeoutSeconds;
+		this.createdAt =Instant.now();
+		this.updatedAt = createdAt;
 	}
 	
 	public static Job create(
@@ -115,7 +117,8 @@ public class Job {
 		status = JobStatus.CANCELLED;
 		updatedAt = Instant.now();
 	}
-		
+	
+	public UUID getId() { return id; }
 	public String getName() { return name; }
 	public JobStatus getStatus() { return status; }
 	public String getSchedule() { return schedule; }		

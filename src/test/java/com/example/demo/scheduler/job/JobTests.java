@@ -4,14 +4,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.job.Job;
+import com.example.demo.job.JobRepository;
 import com.example.demo.job.JobStatus;
 import com.example.demo.job.JobType;
 
 @SpringBootTest
 public class JobTests {
+	
+	@Autowired
+	JobRepository jobRepository;
 	
 	@Test
 	void shouldCreateActiveJob() {
@@ -47,6 +52,25 @@ public class JobTests {
 		assertThatThrownBy(job::resume)
 			.isInstanceOf(IllegalStateException.class);
 	}
+	
+	@Test
+	void shouldPersistJob() {
+		
+		Job job = createJob();
+		
+		Job saved = jobRepository.save(job);
+		
+		assertThat(saved.getId())
+			.isNotNull();
+		
+		assertThat(jobRepository.findById(saved.getId()))
+				.isPresent();
+		
+		
+	}
+	
+	
+	
 	
 	
 	private Job createJob() {

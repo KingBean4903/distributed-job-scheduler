@@ -118,11 +118,20 @@ public class Job {
 		updatedAt = Instant.now();
 	}
 	
+	public void advanceNextRunAt(Instant nextRunAt) {
+		if (status != JobStatus.ACTIVE ) {
+			throw new IllegalStateException("Only active jobs can be scheduled");
+		}
+		this.nextRunAt = nextRunAt;
+		this.updatedAt = Instant.now();
+	}
+	
 	public UUID getId() { return id; }
 	public String getName() { return name; }
 	public JobStatus getStatus() { return status; }
 	public String getSchedule() { return schedule; }		
 	public String getPayload() { return payload; }
+	public  Instant getNextRunAt( ) { return nextRunAt; }
 	public 	Integer getPriority() { return priority; }	
 	public Integer getTimeoutSeconds() { return timeoutSeconds; }
 	public Integer getMaxRetries()  { return maxRetries; } 

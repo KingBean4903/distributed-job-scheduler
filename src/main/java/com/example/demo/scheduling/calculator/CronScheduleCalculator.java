@@ -13,12 +13,14 @@ public class CronScheduleCalculator implements ScheduleCalculator {
 	@Override
 	public Instant nextExecution(
 			String schedule, 
-			Instant countExecution, 
+			Instant currentExecution, 
 			ZoneId zoneId) {
 		
 		CronExpression cron = CronExpression.parse(normalize(schedule));
 		
-		ZonedDateTime next = cron.next(cron);
+		ZonedDateTime current = currentExecution.atZone(zoneId);
+		
+		ZonedDateTime next = cron.next(current);
 		
 		if (next == null) {
 			throw new IllegalStateException(
@@ -28,10 +30,12 @@ public class CronScheduleCalculator implements ScheduleCalculator {
 	}
 	
 	private String normalize(String schedule) {
+		
 		String[] fields = 
 					schedule.trim().split("\\s+");
+		
 		if (fields.length == 5) {
-			return "0" + schedule;
+			return "0 " + schedule;
 		}
 		
 		if (fields.length == 6) {

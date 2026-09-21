@@ -1,6 +1,7 @@
 package com.example.demo.job;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import jakarta.persistence.*;
@@ -44,6 +45,9 @@ public class Job {
 	@Column(name="next_run_at")
 	private Instant nextRunAt;
 	
+	@Column(nullable=false)
+	private String timezone;
+	
 	@Column(nullable=false, updatable=false)
 	private Instant createdAt;
 	
@@ -64,6 +68,7 @@ public class Job {
 		this.name = name;
 		this.type = type;
 		this.schedule = schedule;
+		this.timezone = ZoneOffset.UTC.toString();
 		this.payload = payload;
 		this.priority = priority;
 		this.maxRetries = maxRetries;
@@ -135,5 +140,5 @@ public class Job {
 	public 	Integer getPriority() { return priority; }	
 	public Integer getTimeoutSeconds() { return timeoutSeconds; }
 	public Integer getMaxRetries()  { return maxRetries; } 
-					
+	public String getTimezone() { return timezone; }
 }

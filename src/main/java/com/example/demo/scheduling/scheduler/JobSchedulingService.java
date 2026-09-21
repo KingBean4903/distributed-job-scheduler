@@ -1,6 +1,8 @@
 package com.example.demo.scheduling.scheduler;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +15,7 @@ import com.example.demo.execution.repository.JobExectionRepository;
 import com.example.demo.job.Job;
 import com.example.demo.job.JobRepository;
 import com.example.demo.job.JobStatus;
+import com.example.demo.scheduling.calculator.ScheduleCalculator;
 
 @Service
 public class JobSchedulingService {
@@ -20,13 +23,16 @@ public class JobSchedulingService {
 	private JobRepository jobRepository;
 	private JobExectionRepository executionRepository;
 	private final SchedulingHook schedulingHook;
+	private final ScheduleCalculator scheduleCalculator;
 	
 	public JobSchedulingService(JobRepository jobRepository,
 			JobExectionRepository executionRepository,
+			ScheduleCalculator scheduleCalculator,
 			SchedulingHook schedulingHook) {
 		this.jobRepository = jobRepository;
 		this.executionRepository = executionRepository;
 		this.schedulingHook = schedulingHook;
+		this.scheduleCalculator = scheduleCalculator;
 	}
 	
 	@Transactional
@@ -51,7 +57,14 @@ public class JobSchedulingService {
 		
 		executionRepository.save(execution);
 		
-		job.advanceNextRunAt(scheduledAt.plusSeconds(300));
+		ZoneId zoneId = ZoneId.of(job.getTimezone());
+		
+		Instant nextRunAt = scheduleCalculator.nextExecution(
+				job.getSchedule(), 
+				scheduledAt, 
+				zoneId);
+		
+		job.advanceNextRunAt(nextRunAt);
 	}
 
 	@Transactional

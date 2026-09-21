@@ -16,6 +16,8 @@ import com.example.demo.job.Job;
 import com.example.demo.job.JobRepository;
 import com.example.demo.job.JobStatus;
 import com.example.demo.scheduling.calculator.ScheduleCalculator;
+import com.example.demo.scheduling.misfire.MisfireDecision;
+import com.example.demo.scheduling.misfire.MisfireHandler;
 
 @Service
 public class JobSchedulingService {
@@ -24,14 +26,17 @@ public class JobSchedulingService {
 	private JobExectionRepository executionRepository;
 	private final SchedulingHook schedulingHook;
 	private final ScheduleCalculator scheduleCalculator;
+	private final MisfireHandler misfireHandler;
 	
 	public JobSchedulingService(JobRepository jobRepository,
 			JobExectionRepository executionRepository,
 			ScheduleCalculator scheduleCalculator,
-			SchedulingHook schedulingHook) {
+			SchedulingHook schedulingHook,
+			MisfireHandler misfireHandler) {
 		this.jobRepository = jobRepository;
 		this.executionRepository = executionRepository;
 		this.schedulingHook = schedulingHook;
+		this.misfireHandler = misfireHandler;
 		this.scheduleCalculator = scheduleCalculator;
 	}
 	
@@ -80,17 +85,19 @@ public class JobSchedulingService {
 		
 		for (Job job: dueJobs) {
 			
-			Instant scheduledAt = 
-						job.getNextRunAt();
+			MisfireDecision decision = 
+					misfireHandler.decide(job, now);
 			
-			JobExecution executor = JobExecution.create(
+			for (Instant scheduledAt: decision.executions()) { 	
+			
+			JobExecution execution = JobExecution.create(
 					job.getId(), scheduledAt);
 			
-			executionRepository.save(executor);
-			Instant nextRun = 
-					scheduledAt.plusSeconds(300);
+			executionRepository.save(execution);
 			
-			job.advanceNextRunAt(nextRun);
+			}
+			job.advanceNextRunAt(decision.nextRunAt());
+			
 		}
 		
 	}

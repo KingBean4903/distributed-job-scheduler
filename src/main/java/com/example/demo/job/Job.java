@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
+import com.example.demo.scheduling.scheduler.MisfirePolicy;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +18,10 @@ public class Job {
 	
 	@Column(nullable=false)
 	private String name;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="misfire_policy", nullable=false)
+	private MisfirePolicy misfirePolicy;
 	
 	
 	@Enumerated(EnumType.STRING)
@@ -141,4 +147,5 @@ public class Job {
 	public Integer getTimeoutSeconds() { return timeoutSeconds; }
 	public Integer getMaxRetries()  { return maxRetries; } 
 	public String getTimezone() { return timezone; }
+	public MisfirePolicy getMisfirePolicy() { return misfirePolicy; }
 }

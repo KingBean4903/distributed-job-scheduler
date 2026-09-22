@@ -26,6 +26,7 @@ import com.example.demo.job.Job;
 import com.example.demo.job.JobRepository;
 import com.example.demo.job.JobType;
 import com.example.demo.scheduling.scheduler.JobSchedulingService;
+import com.example.demo.scheduling.scheduler.MisfirePolicy;
 import com.example.demo.scheduling.scheduler.SchedulingHook;
 
 @SpringBootTest
@@ -98,7 +99,9 @@ public class JobSchedulingConcurrencyTest {
 				"test-job",
 				JobType.HTTP, 
 				"*/5 * * * *", 
+				"UTC",
 				"{}", 
+				MisfirePolicy.SKIP_MISSED,
 				1, 
 				3, 
 				10);
@@ -146,7 +149,9 @@ public class JobSchedulingConcurrencyTest {
 				"duplicate-test", 
 				JobType.HTTP, 
 				"*/5 * * * * *", 
+				"UTC",
 				"{}", 
+				MisfirePolicy.SKIP_MISSED,
 				1, 
 				3, 
 				30);

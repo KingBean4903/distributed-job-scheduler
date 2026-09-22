@@ -66,7 +66,9 @@ public class Job {
 			String name,
 			JobType type, 
 			String schedule,
+			String timezone,
 			String payload,
+			MisfirePolicy misfirePolicy,
 			Integer priority,
 			Integer maxRetries,
 			Integer timeoutSeconds) {
@@ -74,9 +76,10 @@ public class Job {
 		this.name = name;
 		this.type = type;
 		this.schedule = schedule;
-		this.timezone = ZoneOffset.UTC.toString();
+		this.timezone = timezone;
 		this.payload = payload;
 		this.priority = priority;
+		this.misfirePolicy = misfirePolicy;
 		this.maxRetries = maxRetries;
 		this.status = JobStatus.ACTIVE;
 		this.timeoutSeconds = timeoutSeconds;
@@ -88,15 +91,23 @@ public class Job {
 			String name,
 			JobType type,
 			String schedule,
+			String timezone,
 			String payload,
+			MisfirePolicy misfirePolicy,
 			Integer priority,
 			Integer maxRetries,
 			Integer timeoutSeconds
 			) { 
 		
-		return new Job(name, type,
-				schedule, payload,
-				priority,  maxRetries,
+		return new Job(
+				name, 
+				type,
+				schedule, 
+				timezone,
+				payload,
+				misfirePolicy,
+				priority,  
+				maxRetries,
 				timeoutSeconds);
 	}
 	

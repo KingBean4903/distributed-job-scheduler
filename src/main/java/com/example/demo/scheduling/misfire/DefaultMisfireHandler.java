@@ -104,7 +104,7 @@ public class DefaultMisfireHandler implements MisfireHandler {
 			occurrence = next(job, occurrence, zone);
 		}
 		
-		return new MisfireDecision(List.of(occurrence), next(job, occurrence, zone))
+		return new MisfireDecision(List.of(occurrence), next(job, occurrence, zone));
 	}
 	
 	private MisfireDecision catchUp(

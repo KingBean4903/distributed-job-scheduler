@@ -11,6 +11,7 @@ import com.example.demo.job.Job;
 import com.example.demo.job.JobRepository;
 import com.example.demo.job.JobStatus;
 import com.example.demo.job.JobType;
+import com.example.demo.scheduling.scheduler.MisfirePolicy;
 
 @SpringBootTest
 public class JobTests {
@@ -24,7 +25,9 @@ public class JobTests {
 				"generate-report", 
 				JobType.HTTP, 
 				"0 */5 * * * *", 
+				"UTC",
 				"{\"customerId\": 123}", 
+				MisfirePolicy.SKIP_MISSED,
 				5, 
 				3, 
 				30);
@@ -79,7 +82,9 @@ public class JobTests {
 				"generate-report", 
 				JobType.HTTP, 
 				"0 */5 * * * *", 
+				"UTC",
 				"{\"customerId\": 123}", 
+				MisfirePolicy.SKIP_MISSED,
 				5, 
 				3, 
 				30);

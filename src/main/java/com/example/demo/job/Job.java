@@ -151,6 +151,7 @@ public class Job {
 	public UUID getId() { return id; }
 	public String getName() { return name; }
 	public JobStatus getStatus() { return status; }
+	public JobType getJobType() { return type; }
 	public String getSchedule() { return schedule; }		
 	public String getPayload() { return payload; }
 	public  Instant getNextRunAt( ) { return nextRunAt; }

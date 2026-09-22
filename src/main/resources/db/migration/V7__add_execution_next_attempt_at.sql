@@ -1,0 +1,2 @@
+ALTER TABLE job_executions
+ADD COLUMN next_attempt_at TIMESTAMP WITH TIME ZONE;

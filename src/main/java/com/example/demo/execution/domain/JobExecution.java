@@ -24,6 +24,9 @@ public class JobExecution {
 	@Column(nullable=false)
 	private int attempt;
 	
+	@Column(name="next_attempt_at")
+	private Instant nextAttemptAt;
+	
 	@Column(name="scheduled_at", nullable=false)
 	private Instant scheduledAt;
 	
@@ -55,6 +58,7 @@ public class JobExecution {
 		this.scheduledAt = scheduledAt;
 		this.status = ExecutionStatus.READY;
 		this.attempt = 0;
+		this.nextAttemptAt = scheduledAt;
 		this.createdAt = Instant.now();
 	}
 	
@@ -96,6 +100,26 @@ public class JobExecution {
 		this.completedAt = Instant.now();
 	}
 	
+	public void shouldRetry(Instant nextAttemptAt) {
+		
+		if (status != ExecutionStatus.FAILED) {
+			throw new IllegalStateException(
+					"Only failed executions can be retried");
+		}
+		
+		if (nextAttemptAt == null) {
+			throw new IllegalArgumentException(
+					"Not attempt time can be null");
+		}
+		
+		status= ExecutionStatus.READY;
+		this.nextAttemptAt = nextAttemptAt;
+		workerId = null;
+		leaseExpiresAt = null;
+		startedAt = null;
+		completedAt = null;
+	}
+	
 	
 	public UUID getJobId() { return jobId; }
 	public int getAttempt() {  return attempt; }
@@ -106,5 +130,6 @@ public class JobExecution {
 	public Instant getCompletedAt() { return completedAt; }
   	public Instant getLeaseExpiresAt() { return leaseExpiresAt; }
 	public UUID getId() { return id; }
+	public Instant getNextAttemptAt() { return nextAttemptAt; }
 	
 }

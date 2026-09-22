@@ -16,7 +16,8 @@ public interface JobExectionRepository extends JpaRepository<JobExecution, UUID>
 			SELECT *
 			FROM job_executions
 			WHERE status = 'READY'
-			ORDER BY scheduled_at ASC
+			AND next_attempt_at <= NOW()
+			ORDER BY next_attempt_at ASC
 			LIMIT :limit
 			FOR UPDATE SKIP LOCKED
 			""", nativeQuery=true)

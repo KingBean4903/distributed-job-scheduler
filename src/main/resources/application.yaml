@@ -16,5 +16,10 @@ spring:
     enabled: true
     out-of-order: true
 
+scheduler:
+  worker:
+    threads: 4
+    batch-size: 10
+
 server:
   port: 9800

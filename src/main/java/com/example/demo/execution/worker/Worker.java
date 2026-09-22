@@ -1,6 +1,7 @@
 package com.example.demo.execution.worker;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import org.springframework.stereotype.Component;
 
@@ -20,15 +21,18 @@ public class Worker {
 	private final JobRepository jobRepository;
 	private final JobExecutorRegistry executorRegistry;
 	private final ExecutionCompletionService completionService;
+	private final ExecutorService workerExecutor;
 	
 	public Worker(
 			ExecutionClaimService claimService,
 			JobRepository jobRepository,
 			JobExecutorRegistry executorRegistry,
-			ExecutionCompletionService completionService) {
+			ExecutionCompletionService completionService,
+			ExecutorService workerExecutor) {
 		this.claimService = claimService;
 		this.jobRepository = jobRepository;
 		this.completionService = completionService;
+		this.workerExecutor = workerExecutor;
 		this.executorRegistry = executorRegistry;
 	}
 	
@@ -39,12 +43,15 @@ public class Worker {
 				claimService.claim(workerId, batchSize);
 		
 		for (JobExecution executor: executors) {
-			execute(executor);
+			workerExecutor.submit(() ->
+			execute(executor));
 		}
 		
 	}
 	
 	private void execute(JobExecution execution) {
+		
+		try {
 		
 		Job job = jobRepository.findById(execution.getJobId())
 						.orElseThrow(() -> 
@@ -62,8 +69,10 @@ public class Worker {
 		} else {
 			completionService.fail(execution.getId(), result.error());
 		}		
+	} catch(Exception e) {
+		completionService.fail(execution.getId(), e.getMessage());
 	}
-	
+	} 
 	
 	
 	

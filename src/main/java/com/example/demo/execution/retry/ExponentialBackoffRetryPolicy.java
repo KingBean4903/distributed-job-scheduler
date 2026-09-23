@@ -2,11 +2,14 @@ package com.example.demo.execution.retry;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.springframework.stereotype.Component;
+
 import com.example.demo.execution.domain.JobExecution;
 import com.example.demo.execution.executor.ExecutionResult;
 import com.example.demo.execution.executor.FailureType;
 import com.example.demo.job.Job;
 
+@Component
 public class ExponentialBackoffRetryPolicy
  		implements RetryPolicy {
 
@@ -36,7 +39,7 @@ public class ExponentialBackoffRetryPolicy
 		
 		
 		long delay = backoffCalculator.calculateDelaySeconds(execution.getAttempt());
-		
+				
 		return RetryDecision.retry(
 				delay,
 				"Retryable failure");

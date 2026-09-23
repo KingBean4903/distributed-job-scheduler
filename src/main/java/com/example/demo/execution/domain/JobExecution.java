@@ -120,12 +120,33 @@ public class JobExecution {
 		completedAt = null;
 	}
 	
+
+	
+	public void scheduleRetry(Instant nextAttemptAt) {
+		
+		if (status != ExecutionStatus.FAILED) {
+			throw new IllegalStateException(
+					"Only failed executions can be retries");
+		}
+		
+		if (nextAttemptAt == null) {
+			
+			throw new IllegalArgumentException("Next attempt time cannot be null");
+		}
+		
+		status = ExecutionStatus.READY;
+		this.nextAttemptAt = nextAttemptAt;
+		workerId = null;
+		leaseExpiresAt = null;
+		startedAt = null;
+		completedAt = null;
+	}
+	
 	public void moveToDlq(String reason) {
 		if (status != ExecutionStatus.FAILED) {
 			throw new IllegalStateException(
-					"Only failed executions are moved to dlq");
+					"Only failed executions cna move to DLQ");
 		}
-		
 		status = ExecutionStatus.DLQ;
 		error = reason;
 	}

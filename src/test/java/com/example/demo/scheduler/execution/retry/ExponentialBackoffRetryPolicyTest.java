@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.execution.domain.JobExecution;
@@ -23,16 +24,8 @@ import com.example.demo.scheduling.scheduler.MisfirePolicy;
 @SpringBootTest
 public class ExponentialBackoffRetryPolicyTest {
 	
+	@Autowired
 	private RetryPolicy retryPolicy;
-	
-	@BeforeEach
-	void setup() {
-		
-		ExponentialBackoffCalculator calculator = new ExponentialBackoffCalculator();
-		 
-		retryPolicy = new ExponentialBackoffRetryPolicy(calculator);
-	}
-	
 	
 	private Job createJob(int maxRetries) {
 		

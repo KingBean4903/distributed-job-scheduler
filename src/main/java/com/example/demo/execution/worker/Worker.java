@@ -9,6 +9,7 @@ import com.example.demo.execution.domain.JobExecution;
 import com.example.demo.execution.executor.ExecutionResult;
 import com.example.demo.execution.executor.JobExecutor;
 import com.example.demo.execution.executor.JobExecutorRegistry;
+import com.example.demo.execution.retry.RetryService;
 import com.example.demo.execution.service.ExecutionClaimService;
 import com.example.demo.execution.service.ExecutionCompletionService;
 import com.example.demo.job.Job;
@@ -22,18 +23,21 @@ public class Worker {
 	private final JobExecutorRegistry executorRegistry;
 	private final ExecutionCompletionService completionService;
 	private final ExecutorService workerExecutor;
+	private final RetryService retryService;
 	
 	public Worker(
 			ExecutionClaimService claimService,
 			JobRepository jobRepository,
 			JobExecutorRegistry executorRegistry,
 			ExecutionCompletionService completionService,
-			ExecutorService workerExecutor) {
+			ExecutorService workerExecutor,
+			RetryService retryService) {
 		this.claimService = claimService;
 		this.jobRepository = jobRepository;
 		this.completionService = completionService;
 		this.workerExecutor = workerExecutor;
 		this.executorRegistry = executorRegistry;
+		this.retryService = retryService;
 	}
 	
 	public void runOnce(String workerId, 
@@ -67,7 +71,7 @@ public class Worker {
 		if (result.success()) {
 			completionService.succeed(execution.getId());
 		} else {
-			completionService.fail(execution.getId(), result.error());
+			retryService.handleFailure(job, execution.getId(), result);
 		}		
 	} catch(Exception e) {
 		completionService.fail(execution.getId(), e.getMessage());

@@ -1,5 +1,8 @@
 package com.example.demo.execution.retry;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ExponentialBackoffCalculator implements 
 		BackoffCalculator {
 	

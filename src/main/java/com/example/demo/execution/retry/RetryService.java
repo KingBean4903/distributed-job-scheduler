@@ -1,6 +1,7 @@
 package com.example.demo.execution.retry;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,19 +27,27 @@ public class RetryService {
 	@Transactional
 	public void handleFailure(
 			Job job,
-			JobExecution jobExecution,
+			UUID executionId,
 			ExecutionResult result) { 
 		
+		JobExecution execution = executionRepository.findById(executionId)
+								.orElseThrow(() -> 
+										new IllegalStateException(
+												"Execution was not found: " + 
+										executionId));
+		
+				
+		
 		RetryDecision decision = 
-					retryPolicy.decide(job, jobExecution, result);
+					retryPolicy.decide(job, execution, result);
 		
 		if (decision.retry()) {
 			Instant nextAttemptAt = Instant
 					.now()
 					.plusSeconds(decision.delaySeconds());
-			jobExecution.shouldRetry(nextAttemptAt);
+			execution.scheduleRetry(nextAttemptAt);
 		} else {
-			jobExecution.moveToDlq(decision.reason());
+			execution.moveToDlq(decision.reason());
 		}
 	}
 	

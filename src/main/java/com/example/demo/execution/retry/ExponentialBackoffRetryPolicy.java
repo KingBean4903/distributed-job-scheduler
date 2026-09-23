@@ -12,6 +12,12 @@ public class ExponentialBackoffRetryPolicy
 
 	private static final long BASE_DELAY_SECONDS = 1;
 	private static final long MAX_DELAY_SECONDS = 300;
+	private final ExponentialBackoffCalculator backoffCalculator;
+	
+	public ExponentialBackoffRetryPolicy(
+			ExponentialBackoffCalculator backoffCalculator) {
+		this.backoffCalculator = backoffCalculator;
+	}
 	
 	@Override
 	public RetryDecision decide(Job job, JobExecution execution, ExecutionResult result) {
@@ -29,7 +35,7 @@ public class ExponentialBackoffRetryPolicy
 		}
 		
 		
-		long delay = calculateDelay(execution.getAttempt());
+		long delay = backoffCalculator.calculateDelaySeconds(execution.getAttempt());
 		
 		return RetryDecision.retry(
 				delay,
@@ -54,25 +60,6 @@ public class ExponentialBackoffRetryPolicy
 				(result.httpStatus() == 400 || result.httpStatus() == 429);
 		case UNKNOWN -> false;
 		};
-	}
-	
-	private long calculateDelay(int attempt) {
-		long exponential = 
-				BASE_DELAY_SECONDS * (1L << Math.max(0, attempt - 1));
-		
-		long capped = Math.min(exponential, MAX_DELAY_SECONDS);
-		
-		return addJitter(capped);
-	}
-	
-	private long addJitter(long delay) {
-		
-		long jitter = 
-				 ThreadLocalRandom.current()
-				 .nextLong(0,
-						 Math.max(1, delay/2));
-		
-		return delay + jitter;
 	}
 	
 	

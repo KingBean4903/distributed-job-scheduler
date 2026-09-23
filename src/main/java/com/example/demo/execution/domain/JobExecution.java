@@ -120,6 +120,16 @@ public class JobExecution {
 		completedAt = null;
 	}
 	
+	public void moveToDlq(String reason) {
+		if (status != ExecutionStatus.FAILED) {
+			throw new IllegalStateException(
+					"Only failed executions are moved to dlq");
+		}
+		
+		status = ExecutionStatus.DLQ;
+		error = reason;
+	}
+	
 	
 	public UUID getJobId() { return jobId; }
 	public int getAttempt() {  return attempt; }

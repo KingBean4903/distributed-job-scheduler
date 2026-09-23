@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.execution.domain.JobExecution;
 import com.example.demo.execution.executor.ExecutionResult;
+import com.example.demo.execution.retry.ExponentialBackoffCalculator;
 import com.example.demo.execution.retry.ExponentialBackoffRetryPolicy;
 import com.example.demo.execution.retry.RetryDecision;
 import com.example.demo.execution.retry.RetryPolicy;
@@ -26,9 +27,13 @@ public class ExponentialBackoffRetryPolicyTest {
 	
 	@BeforeEach
 	void setup() {
-		retryPolicy = new ExponentialBackoffRetryPolicy();
+		
+		ExponentialBackoffCalculator calculator = new ExponentialBackoffCalculator();
+		 
+		retryPolicy = new ExponentialBackoffRetryPolicy(calculator);
 	}
-
+	
+	
 	private Job createJob(int maxRetries) {
 		
 		return Job.create(
@@ -89,6 +94,28 @@ public class ExponentialBackoffRetryPolicyTest {
 		
 		assertThat(decision.reason()).isEqualTo("Execution Succeeded");
 	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

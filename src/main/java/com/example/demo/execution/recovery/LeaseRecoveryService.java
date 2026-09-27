@@ -1,5 +1,7 @@
 package com.example.demo.execution.recovery;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,13 @@ public class LeaseRecoveryService {
 	public int recoverExpiredLeases() {
 		return executionRepository
 					.recoverExpiredLeases();
+	}
+	
+	@Transactional
+	public boolean renew(UUID executionId, 
+			String workerId) {
+		
+		return executionRepository.renewLease(executionId, workerId) == 1;
 	}
 	
 

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.example.demo.execution.domain.ExecutionStatus;
 import com.example.demo.execution.domain.JobExecution;
 
 public interface JobExectionRepository extends JpaRepository<JobExecution, UUID> {
@@ -64,8 +65,29 @@ public interface JobExectionRepository extends JpaRepository<JobExecution, UUID>
 			""", nativeQuery = true)
 	int recoverExpiredLeases();
 	
+	@Modifying
+	@Query(value = """
+			UPDATE job_executions
+			SET lease_expires_at = NOW() + INTERVAL '30 seconds'
+			WHERE id = :executionId
+				AND status = 'RUNNING'
+				AND worker_id = :workerId
+				AND lease_expires_at > NOW()
+			""", nativeQuery = true)
+	int renewLease(
+			@Param("executionId") UUID executionId,
+			@Param("workerId") String workerId);
 	
 	
+	@Query( """
+			SELECT e
+			FROM JobExecution e 
+			WHERE e.status = :status
+			AND e.workerId = :workerId
+			""" )
+	List<JobExecution> findRunningExections(
+			@Param("status") ExecutionStatus status,
+			@Param("workerId") String workerId);
 	
 	
 	

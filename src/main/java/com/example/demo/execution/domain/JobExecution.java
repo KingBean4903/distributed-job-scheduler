@@ -151,6 +151,18 @@ public class JobExecution {
 		error = reason;
 	}
 	
+	public boolean isOwnedBy(String workerId) {
+		return this.workerId != null &&
+				this.workerId.equals(workerId);
+	}
+	
+	public boolean isLeaseExpired(Instant now) {
+		return leaseExpiresAt != null 
+				&& !leaseExpiresAt.isAfter(now);
+	}
+	
+	
+	
 	
 	public UUID getJobId() { return jobId; }
 	public int getAttempt() {  return attempt; }

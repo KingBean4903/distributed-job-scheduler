@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -23,4 +24,55 @@ public interface JobExectionRepository extends JpaRepository<JobExecution, UUID>
 			""", nativeQuery=true)
 	List<JobExecution> findReadyExecutionsForUpdate(
 			@Param("limit") int limit);
+	
+	
+	@Modifying
+	@Query(value = """
+			UPDATE job_exeuctions
+			SET status = 'SUCCESS',
+				completed_at = NOW()
+			WHERE id = :executionId
+			AND status = 'RUNNING'
+			AND worker_id = :workerId
+			AND lease_expires_at > NOW() 
+			""", nativeQuery = true)
+	int completeIfOwned(
+			@Param("executionId") UUID executionId,
+			@Param("workerId") String workerId);
+	
+	
+	@Modifying
+	@Query(value = """
+			UPDATE job_executions
+			SET worker_id = :workerId,
+			lease_expires_at = NOW() + INTERVAL '30 seconds'
+			WHERE id = :executionId
+			""", nativeQuery= true)
+	int reassignForTest(
+			@Param("executionId") UUID executionId,
+			@Param("workerId") String workerId);
+	
+	@Modifying
+	@Query(value = """
+			UPDATE job_executions
+			SET status = 'READY',
+				worker_id=NULL,
+				lease_expires_at=NULL,
+				started_at=NULL
+			WHERE status = 'RUNNING'
+				AND lease_expires_at <= NOW()
+			""", nativeQuery = true)
+	int recoverExpiredLeases();
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

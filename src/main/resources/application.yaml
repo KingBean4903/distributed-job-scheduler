@@ -20,6 +20,7 @@ scheduler:
   worker:
     threads: 4
     batch-size: 10
+    lease-duration-seconds: 30
 
 server:
   port: 9800

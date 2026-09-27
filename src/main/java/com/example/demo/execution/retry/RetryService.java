@@ -38,6 +38,7 @@ public class RetryService {
 		
 				
 		
+		execution.fail(result.error());
 		RetryDecision decision = 
 					retryPolicy.decide(job, execution, result);
 		

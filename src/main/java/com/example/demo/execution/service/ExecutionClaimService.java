@@ -36,7 +36,7 @@ public class ExecutionClaimService {
 				executionRepository.findReadyExecutionsForUpdate(limit);
 		
 		Instant leaseExpiresAt =
-				Instant.now().plusSeconds(30);
+				Instant.now().plus(leaseDuration);
 		
 		for (JobExecution execution: executions) {
 			execution.start(workerId, leaseExpiresAt);

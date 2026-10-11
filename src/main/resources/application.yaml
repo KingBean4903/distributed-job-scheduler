@@ -15,12 +15,15 @@ spring:
   flyway:
     enabled: true
     out-of-order: true
+  main:
+    allow-bean-definition-overriding: true
 
 scheduler:
   worker:
     threads: 4
     batch-size: 10
     lease-duration-seconds: 30
+    heartbeat-interval-millis: 10000
 
 server:
   port: 9800

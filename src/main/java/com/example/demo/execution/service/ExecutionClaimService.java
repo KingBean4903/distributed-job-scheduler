@@ -1,5 +1,6 @@
 package com.example.demo.execution.service;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -15,16 +16,21 @@ import jakarta.transaction.Transactional;
 public class ExecutionClaimService {
 
 	private final JobExectionRepository executionRepository;
-	private final Duration leaseDuration;
+	private final Duration workerLeaseDuration;
 	private final ExecutionClaimHook claimHook;
+	private final Clock clock;
+	
+	private final String CONSTANT_DATE = "2026-10-02T08:35:30.00Z";
 	
 	public ExecutionClaimService(
 			JobExectionRepository executionRepository,
 			Duration workerLeaseDuration,
-			ExecutionClaimHook claimHook) {
+			ExecutionClaimHook claimHook,
+			Clock clock) {
 		this.executionRepository = executionRepository;
-		this.leaseDuration = workerLeaseDuration;
+		this.workerLeaseDuration = workerLeaseDuration;
 		this.claimHook = claimHook;
+		this.clock = clock;
 	}
 	
 	@Transactional
@@ -32,11 +38,13 @@ public class ExecutionClaimService {
 			String workerId,
 			int limit) {
 		
+		Instant now = Instant.now(clock);
+		
 		List<JobExecution> executions =
-				executionRepository.findReadyExecutionsForUpdate(limit);
+				executionRepository.findReadyExecutionsForUpdate(limit, now);
 		
 		Instant leaseExpiresAt =
-				Instant.now().plus(leaseDuration);
+					now.plusSeconds(workerLeaseDuration.getSeconds());
 		
 		for (JobExecution execution: executions) {
 			execution.start(workerId, leaseExpiresAt);

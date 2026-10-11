@@ -1,5 +1,7 @@
 package com.example.demo.execution.service;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -13,21 +15,25 @@ import com.example.demo.execution.repository.JobExectionRepository;
 public class ExecutionCompletionService {
 
 	private final JobExectionRepository repository;
+	private final Clock clock;
 	
-	public ExecutionCompletionService(JobExectionRepository repository) {
+	public ExecutionCompletionService(JobExectionRepository repository,
+			Clock clock) {
 		
 		this.repository = repository;
+		this.clock = clock;
 	}
 	
 	@Transactional
-	public void succeed(UUID executionId) {
+	public boolean succeed(UUID executionId, String workerId) {
 		
-		JobExecution execution = 
-				repository.findById(executionId)
-						.orElseThrow(() -> 
-						 new IllegalStateException("Execution not found" + executionId));
+		int updated =
+				repository.completeIfOwned(
+						executionId, 
+						workerId,
+						Instant.now(clock));
 		
-		execution.succeed();
+		return updated == 1;
 	}
 	
 	@Transactional

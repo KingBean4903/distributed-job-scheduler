@@ -99,12 +99,15 @@ public class LeaseRecoveryIntergrationTest {
 		assertThat(workerBClaims).hasSize(1);
 		
 		//8. Worker aA tries to complete
-		int staleWorkerUpdate = executionRepository.completeIfOwned(executionId, "worker-A");
+		int staleWorkerUpdate = executionRepository.completeIfOwned(
+				executionId, "worker-A",
+				Instant.now());
 		assertThat(staleWorkerUpdate).isZero();
 		
 		//9. WOrker B completes successfully
 		int validWorkerUpdate = 
-				executionRepository.completeIfOwned(executionId, "worker-B");
+				executionRepository.completeIfOwned(executionId, 
+						"worker-B", Instant.now());
 		assertThat(validWorkerUpdate).isEqualTo(1);
 		
 		// 10. Final state

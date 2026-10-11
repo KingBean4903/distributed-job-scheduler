@@ -74,7 +74,7 @@ public class ExecutionLeaseIntergrationTest {
 		
 		assertThat(executionId).isNotNull();
 		
-		int updated = executionRepository.completeIfOwned(executionId, "worker-A");
+		int updated = executionRepository.completeIfOwned(executionId, "worker-A", Instant.now());
 		
 		assertThat(updated).isEqualTo(1);
 		
@@ -117,7 +117,7 @@ public class ExecutionLeaseIntergrationTest {
 		int completed =
 				executionRepository.completeIfOwned(
 						executionId, 
-						"worker-2");
+						"worker-2", Instant.now());
 		
 		assertThat(completed).isEqualTo(0);
 		

@@ -30,7 +30,7 @@ public class HTTPJobExecutor implements JobExecutor {
 	}
 
 	@Override
-	public ExecutionResult execute(Job job, JobExecution executor) {
+	public ExecutionResult execute(Job job, JobExecution execut) {
 		try {
 			
 			webClient

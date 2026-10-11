@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
@@ -47,4 +49,23 @@ public interface JobRepository extends JpaRepository<Job, UUID> {
 					""",
 					nativeQuery = true)
 	List<Job> findDueJobsForUpdate(@Param("limit") int limit);
+	
+	@Query(
+			value = """
+					 SELECT * 
+					 FROM jobs
+					 WHERE status = 'ACTIVE'
+					 AND next_run_at <= :now
+					 ORDER BY next_run_at
+					 LIMIT :limit
+					 FOR UPDATE SKIP LOCKED
+					""",
+					nativeQuery = true)
+	List<Job> findDueJobsForUpdate(
+			@Param("limit") int limit, 
+			@Param("now")Instant now);
+	
+	Page<Job> findAll(Pageable pageable);
+	
+	
 }

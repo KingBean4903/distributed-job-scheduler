@@ -6,6 +6,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/scheduler
     username: scheduler
     password: scheduler
+    hikari:
+      register-mbeans: true
+      maximum-pool-size: 20
 
   jpa:
     hibernate:
@@ -25,5 +28,22 @@ scheduler:
     lease-duration-seconds: 30
     heartbeat-interval-millis: 10000
 
+logging:
+  console:
+    enabled: true
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    com.example.demo.execution.worker: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+  endpoint:
+    metrics:
+      access: unrestricted	
+        
 server:
   port: 9800

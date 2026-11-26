@@ -19,9 +19,7 @@ public class ExecutionClaimService {
 	private final Duration workerLeaseDuration;
 	private final ExecutionClaimHook claimHook;
 	private final Clock clock;
-	
-	private final String CONSTANT_DATE = "2026-10-02T08:35:30.00Z";
-	
+		
 	public ExecutionClaimService(
 			JobExectionRepository executionRepository,
 			Duration workerLeaseDuration,

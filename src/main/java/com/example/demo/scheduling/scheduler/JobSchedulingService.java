@@ -101,8 +101,17 @@ public class JobSchedulingService {
 			
 			executionRepository.save(execution);
 			
+			ZoneId zoneId = ZoneId.of(job.getTimezone());
+			
+			Instant nextRunAt = scheduleCalculator.nextExecution(
+					job.getSchedule(), 
+					scheduledAt, 
+					zoneId);
+			
+			job.advanceNextRunAt(nextRunAt);
+			
 			}
-			job.advanceNextRunAt(decision.nextRunAt());	
+	
 		}
 	}
 	

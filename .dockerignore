@@ -1,0 +1,8 @@
+
+
+.git/
+.idea/
+.settings/
+.project
+.classpath
+*.log

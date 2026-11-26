@@ -1,0 +1,88 @@
+scheduler-a-1  | 2026-11-14T13:33:31.178247824Z 
+scheduler-a-1  | 2026-11-14T13:33:31.178398813Z   .   ____          _            __ _ _
+scheduler-a-1  | 2026-11-14T13:33:31.178408592Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+scheduler-a-1  | 2026-11-14T13:33:31.178414021Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+scheduler-b-1  | 2026-11-14T13:33:31.158963008Z 
+scheduler-b-1  | 2026-11-14T13:33:31.159178744Z   .   ____          _            __ _ _
+scheduler-b-1  | 2026-11-14T13:33:31.159193071Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+scheduler-b-1  | 2026-11-14T13:33:31.159198292Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+scheduler-b-1  | 2026-11-14T13:33:31.159202915Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+scheduler-a-1  | 2026-11-14T13:33:31.178419681Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+scheduler-a-1  | 2026-11-14T13:33:31.178424277Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+scheduler-a-1  | 2026-11-14T13:33:31.178429128Z  =========|_|==============|___/=/_/_/_/
+scheduler-a-1  | 2026-11-14T13:33:31.178433887Z 
+scheduler-a-1  | 2026-11-14T13:33:31.179216246Z  :: Spring Boot ::                (v4.1.1)
+scheduler-a-1  | 2026-11-14T13:33:31.180194578Z 
+scheduler-a-1  | 2026-11-14T13:33:31.439676374Z 2026-11-14 13:33:31 [main] INFO  c.e.d.DistributedJobSchedulerApplication - Starting DistributedJobSchedulerApplication v0.0.1-SNAPSHOT using Java 21.0.13 with PID 1 (/app/app.jar started by appuser in /app)
+scheduler-a-1  | 2026-11-14T13:33:31.444648161Z 2026-11-14 13:33:31 [main] INFO  c.e.d.DistributedJobSchedulerApplication - No active profile set, falling back to 1 default profile: "default"
+scheduler-a-1  | 2026-11-14T13:33:35.260222413Z 2026-11-14 13:33:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+scheduler-a-1  | 2026-11-14T13:33:35.749911920Z 2026-11-14 13:33:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 464 ms. Found 2 JPA repository interfaces.
+scheduler-a-1  | 2026-11-14T13:33:38.120305736Z 2026-11-14 13:33:38 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 9800 (http)
+scheduler-a-1  | 2026-11-14T13:33:38.173979883Z 2026-11-14 13:33:38 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+scheduler-b-1  | 2026-11-14T13:33:31.159227612Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+scheduler-b-1  | 2026-11-14T13:33:31.159233210Z  =========|_|==============|___/=/_/_/_/
+scheduler-b-1  | 2026-11-14T13:33:31.159238128Z 
+scheduler-b-1  | 2026-11-14T13:33:31.159788238Z  :: Spring Boot ::                (v4.1.1)
+scheduler-b-1  | 2026-11-14T13:33:31.159803351Z 
+scheduler-b-1  | 2026-11-14T13:33:31.520601185Z 2026-11-14 13:33:31 [main] INFO  c.e.d.DistributedJobSchedulerApplication - Starting DistributedJobSchedulerApplication v0.0.1-SNAPSHOT using Java 21.0.13 with PID 1 (/app/app.jar started by appuser in /app)
+scheduler-a-1  | 2026-11-14T13:33:38.174028776Z 2026-11-14 13:33:38 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.24]
+scheduler-b-1  | 2026-11-14T13:33:31.528713494Z 2026-11-14 13:33:31 [main] INFO  c.e.d.DistributedJobSchedulerApplication - No active profile set, falling back to 1 default profile: "default"
+scheduler-b-1  | 2026-11-14T13:33:35.392306428Z 2026-11-14 13:33:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+scheduler-b-1  | 2026-11-14T13:33:35.962276861Z 2026-11-14 13:33:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 552 ms. Found 2 JPA repository interfaces.
+scheduler-b-1  | 2026-11-14T13:33:38.636937069Z 2026-11-14 13:33:38 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 9800 (http)
+scheduler-b-1  | 2026-11-14T13:33:38.705985130Z 2026-11-14 13:33:38 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+scheduler-a-1  | 2026-11-14T13:33:38.248764428Z 2026-11-14 13:33:38 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 6446 ms
+scheduler-a-1  | 2026-11-14T13:33:39.836648409Z 2026-11-14 13:33:39 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+scheduler-a-1  | 2026-11-14T13:33:40.755413825Z 2026-11-14 13:33:40 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@53ba7997
+scheduler-a-1  | 2026-11-14T13:33:41.225960688Z 2026-11-14 13:33:41 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+scheduler-a-1  | 2026-11-14T13:33:41.425625304Z 2026-11-14 13:33:41 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://postgres:5432/scheduler_benchmark (PostgreSQL 16.16)
+scheduler-a-1  | 2026-11-14T13:33:41.799624510Z 2026-11-14 13:33:41 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 7 migrations (execution time 00:00.115s)
+scheduler-a-1  | 2026-11-14T13:33:41.986015571Z 2026-11-14 13:33:41 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 7
+scheduler-a-1  | 2026-11-14T13:33:41.993257511Z 2026-11-14 13:33:41 [main] WARN  o.f.core.internal.command.DbMigrate - outOfOrder mode is active. Migration of schema "public" may not be reproducible.
+scheduler-a-1  | 2026-11-14T13:33:42.049339245Z 2026-11-14 13:33:42 [main] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+scheduler-a-1  | 2026-11-14T13:33:42.975553566Z 2026-11-14 13:33:42 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+scheduler-a-1  | 2026-11-14T13:33:43.300277926Z 2026-11-14 13:33:43 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.4.5.Final
+scheduler-a-1  | 2026-11-14T13:33:46.762845904Z 2026-11-14 13:33:46 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+scheduler-a-1  | 2026-11-14T13:33:47.138331452Z 2026-11-14 13:33:47 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+scheduler-b-1  | 2026-11-14T13:33:38.706396855Z 2026-11-14 13:33:38 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.24]
+scheduler-b-1  | 2026-11-14T13:33:38.795685160Z 2026-11-14 13:33:38 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 6844 ms
+scheduler-b-1  | 2026-11-14T13:33:40.648058171Z 2026-11-14 13:33:40 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+scheduler-a-1  | 2026-11-14T13:33:47.138367900Z 	Database JDBC URL [jdbc:postgresql://postgres:5432/scheduler_benchmark]
+scheduler-a-1  | 2026-11-14T13:33:47.138374829Z 	Database driver: PostgreSQL JDBC Driver
+scheduler-a-1  | 2026-11-14T13:33:47.138380515Z 	Database dialect: PostgreSQLDialect
+scheduler-a-1  | 2026-11-14T13:33:47.138385740Z 	Database version: 16.16
+scheduler-a-1  | 2026-11-14T13:33:47.138390338Z 	Default catalog/schema: scheduler_benchmark/public
+scheduler-a-1  | 2026-11-14T13:33:47.138394839Z 	Autocommit mode: undefined/unknown
+scheduler-a-1  | 2026-11-14T13:33:47.138399496Z 	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+scheduler-a-1  | 2026-11-14T13:33:47.138404690Z 	JDBC fetch size: none
+scheduler-a-1  | 2026-11-14T13:33:47.138409783Z 	Pool: DataSourceConnectionProvider
+scheduler-a-1  | 2026-11-14T13:33:47.138414219Z 	Minimum pool size: undefined/unknown
+scheduler-a-1  | 2026-11-14T13:33:47.138418556Z 	Maximum pool size: undefined/unknown
+scheduler-a-1  | 2026-11-14T13:33:51.222654008Z 2026-11-14 13:33:51 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+scheduler-a-1  | 2026-11-14T13:33:51.438818957Z 2026-11-14 13:33:51 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+scheduler-a-1  | 2026-11-14T13:33:52.043242179Z 2026-11-14 13:33:52 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+scheduler-b-1  | 2026-11-14T13:33:41.585052205Z 2026-11-14 13:33:41 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@53ba7997
+scheduler-b-1  | 2026-11-14T13:33:42.060339151Z 2026-11-14 13:33:42 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+scheduler-b-1  | 2026-11-14T13:33:42.271891302Z 2026-11-14 13:33:42 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://postgres:5432/scheduler_benchmark (PostgreSQL 16.16)
+scheduler-b-1  | 2026-11-14T13:33:42.479826802Z 2026-11-14 13:33:42 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 7 migrations (execution time 00:00.081s)
+scheduler-b-1  | 2026-11-14T13:33:42.652494522Z 2026-11-14 13:33:42 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 7
+scheduler-b-1  | 2026-11-14T13:33:42.661739217Z 2026-11-14 13:33:42 [main] WARN  o.f.core.internal.command.DbMigrate - outOfOrder mode is active. Migration of schema "public" may not be reproducible.
+scheduler-b-1  | 2026-11-14T13:33:42.680728008Z 2026-11-14 13:33:42 [main] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+scheduler-b-1  | 2026-11-14T13:33:43.178527709Z 2026-11-14 13:33:43 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+scheduler-b-1  | 2026-11-14T13:33:43.504104143Z 2026-11-14 13:33:43 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.4.5.Final
+scheduler-b-1  | 2026-11-14T13:33:46.731244952Z 2026-11-14 13:33:46 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+scheduler-b-1  | 2026-11-14T13:33:47.163205058Z 2026-11-14 13:33:47 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+scheduler-b-1  | 2026-11-14T13:33:47.163234090Z 	Database JDBC URL [jdbc:postgresql://postgres:5432/scheduler_benchmark]
+scheduler-b-1  | 2026-11-14T13:33:47.163241468Z 	Database driver: PostgreSQL JDBC Driver
+scheduler-b-1  | 2026-11-14T13:33:47.163246077Z 	Database dialect: PostgreSQLDialect
+scheduler-b-1  | 2026-11-14T13:33:47.163250573Z 	Database version: 16.16
+scheduler-b-1  | 2026-11-14T13:33:47.163255117Z 	Default catalog/schema: scheduler_benchmark/public
+scheduler-b-1  | 2026-11-14T13:33:47.163259418Z 	Autocommit mode: undefined/unknown
+scheduler-b-1  | 2026-11-14T13:33:47.163263735Z 	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+scheduler-b-1  | 2026-11-14T13:33:47.163268423Z 	JDBC fetch size: none
+scheduler-b-1  | 2026-11-14T13:33:47.163277054Z 	Pool: DataSourceConnectionProvider
+scheduler-b-1  | 2026-11-14T13:33:47.163281624Z 	Minimum pool size: undefined/unknown
+scheduler-b-1  | 2026-11-14T13:33:47.163286207Z 	Maximum pool size: undefined/unknown
+scheduler-b-1  | 2026-11-14T13:33:51.258422182Z 2026-11-14 13:33:51 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+scheduler-b-1  | 2026-11-14T13:33:51.527913095Z 2026-11-14 13:33:51 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+scheduler-b-1  | 2026-11-14T13:33:52.042136775Z 2026-11-14 13:33:52 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.

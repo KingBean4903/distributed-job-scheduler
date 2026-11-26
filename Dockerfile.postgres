@@ -1,0 +1,15 @@
+FROM postgres:16
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        git \
+        build-essential \
+        postgresql-server-dev-16 && \
+    git clone --depth 1 https://github.com/postgrespro/pg_wait_sampling.git /tmp/pg_wait_sampling && \
+    cd /tmp/pg_wait_sampling && \
+    make USE_PGXS=1 && \
+    make USE_PGXS=1 install && \
+    rm -rf /tmp/pg_wait_sampling && \
+    apt-get remove -y git build-essential postgresql-server-dev-16 && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*

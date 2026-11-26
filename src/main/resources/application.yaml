@@ -23,10 +23,15 @@ spring:
 
 scheduler:
   worker:
-    threads: 4
+    threads: 16
     batch-size: 10
     lease-duration-seconds: 30
     heartbeat-interval-millis: 10000
+  benchmark:
+    enabled: true
+    job-count: 100000
+    timeout: 330s
+    poll-interval: 1s
 
 logging:
   console:

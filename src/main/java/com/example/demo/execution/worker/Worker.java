@@ -1,6 +1,7 @@
 package com.example.demo.execution.worker;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class Worker {
 	private final Map<Double, String> completion  = new TreeMap<>();
 	private final Map<Double, String> totals  = new TreeMap<>();
 	
-
+	private List<Double> claims = new ArrayList<>();
 	
 	public Worker(
 			ExecutionClaimService claimService,
@@ -71,17 +72,26 @@ public class Worker {
 		
 		String workerId = workerIdentity.getWorkerId();
 		
+		long start = System.nanoTime();
 		
-		List<JobExecution> executors = 
+		List<JobExecution> executions = 
 				claimService.claim(workerId, batchSize);
 		
-		for (JobExecution executor: executors) {
+		double duration = (System.nanoTime() - start) / 1_000_000_000.00;
+		
+		claims.add(duration);
+		
+		for (JobExecution execution: executions) {
 			
-			activeExecutionsRegistry.add(executor.getId());
+			activeExecutionsRegistry.add(execution.getId());
 			
-//			workerExecutor.submit(() -> execute(executor));
+		    workerExecutor.submit(() -> execute(execution));
 		}
 		
+	}
+	
+	public List<Double> getClaims() {
+		return claims;
 	}
 	
 	public void execute(JobExecution execution, 
@@ -114,19 +124,18 @@ public class Worker {
 			
 			long workNanos = System.nanoTime() - workStart;
 			
-			
 			activeExecutionsRegistry.add(execution.getId());
 			
 			long completionStart = System.nanoTime();
 			
-			//String workerId = workerIdentity.getWorkerId();
+			String workerId = workerIdentity.getWorkerId();
 			
 			if (result.success()) {
 				
 				boolean completed =
 									completionService.succeed(
 											execution.getId(), 
-											"benchmark-worker");
+											workerId);
 				
 				if (!completed) {
 					// We lost the ownership
@@ -269,6 +278,68 @@ public void execute(JobExecution execution, AtomicInteger counter) {
 			activeExecutionsRegistry.remove(execution.getId());
 		}
 	} 
+
+public void execute(JobExecution execution) {
+	
+	long totalStart = System.nanoTime();
+	
+	try {
+		
+		long jobLookupStart = System.nanoTime();
+		
+		
+		
+		
+		Job job = jobRepository.findById(execution.getJobId())
+						.orElseThrow(() -> 
+						new IllegalStateException(
+								"Job not found " + 
+								execution.getJobId()));
+		
+		long lookupNanos = System.nanoTime() - jobLookupStart;
+		
+		JobExecutor executor = executorRegistry
+				.getExecutor(job.getJobType());
+		
+		
+		ExecutionResult result = executor.execute(job, execution);
+		
+		
+		
+		activeExecutionsRegistry.add(execution.getId());
+		
+		long completionStart = System.nanoTime();
+		
+		String workerId = workerIdentity.getWorkerId();
+		
+		if (result.success()) {
+			
+			boolean completed =
+								completionService.succeed(
+										execution.getId(), 
+										workerId);
+			
+			if (!completed) {
+				// We lost the ownership
+				// Do not mutate the execution
+				throw new IllegalStateException("Lost ownership of execution "  + execution.getId());
+			}
+			
+					
+		} else {
+		//	retryService.handleFailure(job, execution.getId()kkk, result);
+			completionService.fail(execution.getId(), result.error());
+		}	
+		
+		long completionNanos = System.nanoTime() - completionStart;
+		
+
+		
+	}  finally {
+					
+		activeExecutionsRegistry.remove(execution.getId());
+	}
+} 
 	
 	
 	public Set<UUID> getActiveExecutions() {
